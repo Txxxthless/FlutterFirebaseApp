@@ -47,3 +47,5 @@ macos
 test
 web
 windows
+
+lib/firebase_options.dart
