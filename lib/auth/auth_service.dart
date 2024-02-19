@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase/db/db_helper.dart';
 
 class AuthService {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -10,7 +11,7 @@ class AuthService {
       email: email,
       password: password,
     );
-    return credential.user != null;
+    return DbHelper.isAdmin(credential.user!.uid);
   }
 
   static Future<void> logout() {

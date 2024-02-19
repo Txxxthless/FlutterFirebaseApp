@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/auth/auth_service.dart';
+import 'package:flutter_firebase/models/dashboard_model.dart';
 import 'package:flutter_firebase/pages/login_page.dart';
+import 'package:flutter_firebase/providers/telescope_provider.dart';
+import 'package:flutter_firebase/widgets/dashboard_item_view.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class DashboardPage extends StatefulWidget {
   static const String routeName = '/';
@@ -13,6 +17,12 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   @override
+  void didChangeDependencies() {
+    Provider.of<TelescopeProvider>(context, listen: false).getAllBrands();
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -22,16 +32,27 @@ class _DashboardPageState extends State<DashboardPage> {
         actions: [
           IconButton(
             onPressed: () {
-              AuthService.logout().then((value) => context.goNamed(LoginPage.routeName));
+              AuthService.logout()
+                  .then((value) => context.goNamed(LoginPage.routeName));
             },
             icon: const Icon(Icons.logout),
           ),
         ],
       ),
-      body: Center(
-        child: Text(
-          'Dashboard',
+      body: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
         ),
+        itemCount: dashboardModels.length,
+        itemBuilder: (context, index) {
+          final model = dashboardModels[index];
+          return DashBoardItemView(
+            model: model,
+            onPress: (value) {
+              context.goNamed(value);
+            },
+          );
+        },
       ),
     );
   }
