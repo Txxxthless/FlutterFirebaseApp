@@ -26,4 +26,7 @@ class DbHelper {
     telescope.id = doc.id;
     return doc.set(telescope.toJson());
   }
+
+   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllTelescopes() =>
+      _db.collection(collectionTelescope).snapshots();
 }

@@ -10,6 +10,7 @@ import 'package:flutter_firebase/utils/constants.dart';
 
 class TelescopeProvider with ChangeNotifier {
   List<Brand> brandList = [];
+  List<Telescope> telescopeList = [];
 
   Future<void> addBrand(String name) {
     final brand = Brand(name: name);
@@ -45,5 +46,17 @@ class TelescopeProvider with ChangeNotifier {
 
   Future<void> addTelescope(Telescope telescope) {
     return DbHelper.addTelescope(telescope);
+  }
+
+  void getAllTelescopes() {
+    DbHelper.getAllTelescopes().listen((snapshot) {
+      telescopeList = List.generate(
+        snapshot.docs.length,
+        (index) => Telescope.fromJson(
+          snapshot.docs[index].data(),
+        ),
+      );
+      notifyListeners();
+    });
   }
 }
