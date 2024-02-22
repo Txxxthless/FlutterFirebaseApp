@@ -1,6 +1,12 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_firebase/db/db_helper.dart';
 import 'package:flutter_firebase/models/brand.dart';
+import 'package:flutter_firebase/models/image_model.dart';
+import 'package:flutter_firebase/models/telescope.dart';
+import 'package:flutter_firebase/utils/constants.dart';
 
 class TelescopeProvider with ChangeNotifier {
   List<Brand> brandList = [];
@@ -20,5 +26,24 @@ class TelescopeProvider with ChangeNotifier {
       );
       notifyListeners();
     });
+  }
+
+  Future<ImageModel> uploadImage(String imageLocalPath) async {
+    final String imageName = 'image_${DateTime.now().millisecondsSinceEpoch}';
+    final photoRef = FirebaseStorage.instance
+        .ref()
+        .child('$telescopeImageDirectory$imageName');
+    final uploadTask = photoRef.putFile(File(imageLocalPath));
+    final snapshot = await uploadTask.whenComplete(() => null);
+    final url = await snapshot.ref.getDownloadURL();
+    return ImageModel(
+      imageName: imageName,
+      directoryName: telescopeImageDirectory,
+      downloadUrl: url,
+    );
+  }
+
+  Future<void> addTelescope(Telescope telescope) {
+    return DbHelper.addTelescope(telescope);
   }
 }

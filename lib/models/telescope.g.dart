@@ -17,8 +17,8 @@ _$TelescopeImpl _$$TelescopeImplFromJson(Map<String, dynamic> json) =>
       focustype: json['focustype'] as String,
       lensDiameterInMM: json['lensDiameterInMM'] as num,
       mountDescription: json['mountDescription'] as String,
-      price: json['price'] as num,
-      stock: json['stock'] as num,
+      price: json['price'] as num? ?? 0.0,
+      stock: json['stock'] as num? ?? 0.0,
       avgRating: json['avgRating'] as num,
       discount: json['discount'] as num,
       thumbnail: ImageModel.fromJson(json['thumbnail'] as Map<String, dynamic>),
@@ -32,7 +32,7 @@ Map<String, dynamic> _$$TelescopeImplToJson(_$TelescopeImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'model': instance.model,
-      'brand': instance.brand,
+      'brand': instance.brand.toJson(),
       'type': instance.type,
       'dimension': instance.dimension,
       'weightInPound': instance.weightInPound,
@@ -43,7 +43,8 @@ Map<String, dynamic> _$$TelescopeImplToJson(_$TelescopeImpl instance) =>
       'stock': instance.stock,
       'avgRating': instance.avgRating,
       'discount': instance.discount,
-      'thumbnail': instance.thumbnail,
-      'additionalImages': instance.additionalImages,
+      'thumbnail': instance.thumbnail.toJson(),
+      'additionalImages':
+          instance.additionalImages.map((e) => e.toJson()).toList(),
       'description': instance.description,
     };

@@ -83,6 +83,7 @@ abstract class $TelescopeCopyWith<$Res> {
       List<ImageModel> additionalImages,
       String? description});
 
+  $BrandCopyWith<$Res> get brand;
   $ImageModelCopyWith<$Res> get thumbnail;
 }
 
@@ -186,6 +187,14 @@ class _$TelescopeCopyWithImpl<$Res, $Val extends Telescope>
 
   @override
   @pragma('vm:prefer-inline')
+  $BrandCopyWith<$Res> get brand {
+    return $BrandCopyWith<$Res>(_value.brand, (value) {
+      return _then(_value.copyWith(brand: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $ImageModelCopyWith<$Res> get thumbnail {
     return $ImageModelCopyWith<$Res>(_value.thumbnail, (value) {
       return _then(_value.copyWith(thumbnail: value) as $Val);
@@ -219,6 +228,8 @@ abstract class _$$TelescopeImplCopyWith<$Res>
       List<ImageModel> additionalImages,
       String? description});
 
+  @override
+  $BrandCopyWith<$Res> get brand;
   @override
   $ImageModelCopyWith<$Res> get thumbnail;
 }
@@ -321,7 +332,8 @@ class __$$TelescopeImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$TelescopeImpl implements _Telescope {
   _$TelescopeImpl(
       {this.id,
@@ -333,8 +345,8 @@ class _$TelescopeImpl implements _Telescope {
       required this.focustype,
       required this.lensDiameterInMM,
       required this.mountDescription,
-      required this.price,
-      required this.stock,
+      this.price = 0.0,
+      this.stock = 0.0,
       required this.avgRating,
       required this.discount,
       required this.thumbnail,
@@ -363,8 +375,10 @@ class _$TelescopeImpl implements _Telescope {
   @override
   String mountDescription;
   @override
+  @JsonKey()
   num price;
   @override
+  @JsonKey()
   num stock;
   @override
   num avgRating;
@@ -407,8 +421,8 @@ abstract class _Telescope implements Telescope {
       required String focustype,
       required num lensDiameterInMM,
       required String mountDescription,
-      required num price,
-      required num stock,
+      num price,
+      num stock,
       required num avgRating,
       required num discount,
       required ImageModel thumbnail,
