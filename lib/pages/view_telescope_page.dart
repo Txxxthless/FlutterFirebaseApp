@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/pages/telescope_details_page.dart';
 import 'package:flutter_firebase/providers/telescope_provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -24,7 +26,12 @@ class _ViewTelescopePageState extends State<ViewTelescopePage> {
           itemBuilder: (context, index) {
             final telescope = provider.telescopeList[index];
             return InkWell(
-              onTap: () {},
+              onTap: () {
+                context.goNamed(
+                  TelescopeDetailsPage.routeName,
+                  extra: telescope.id,
+                );
+              },
               child: Card(
                 elevation: 0,
                 color: Colors.transparent,

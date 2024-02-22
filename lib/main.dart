@@ -5,7 +5,9 @@ import 'package:flutter_firebase/auth/auth_service.dart';
 import 'package:flutter_firebase/pages/add_telescope_page.dart';
 import 'package:flutter_firebase/pages/brand_page.dart';
 import 'package:flutter_firebase/pages/dashboard_page.dart';
+import 'package:flutter_firebase/pages/description_page.dart';
 import 'package:flutter_firebase/pages/login_page.dart';
+import 'package:flutter_firebase/pages/telescope_details_page.dart';
 import 'package:flutter_firebase/pages/view_telescope_page.dart';
 import 'package:flutter_firebase/providers/telescope_provider.dart';
 import 'package:go_router/go_router.dart';
@@ -68,6 +70,21 @@ class MyApp extends StatelessWidget {
             name: ViewTelescopePage.routeName,
             path: ViewTelescopePage.routeName,
             builder: (context, state) => ViewTelescopePage(),
+            routes: [
+              GoRoute(
+                name: TelescopeDetailsPage.routeName,
+                path: TelescopeDetailsPage.routeName,
+                builder: (context, state) =>
+                    TelescopeDetailsPage(id: state.extra! as String),
+                routes: [
+                  GoRoute(
+                    name: DescriptionPage.routeName,
+                    path: DescriptionPage.routeName,
+                    builder: (context, state) => DescriptionPage(id: state.extra! as String),
+                  ),
+                ],
+              ),
+            ],
           ),
           GoRoute(
             name: BrandPage.routeName,

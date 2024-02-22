@@ -27,6 +27,13 @@ class DbHelper {
     return doc.set(telescope.toJson());
   }
 
-   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllTelescopes() =>
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllTelescopes() =>
       _db.collection(collectionTelescope).snapshots();
+
+  static Future<void> updateTelescopeField(
+    String id,
+    Map<String, dynamic> map,
+  ) {
+    return _db.collection(collectionTelescope).doc(id).update(map);
+  }
 }

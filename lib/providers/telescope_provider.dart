@@ -59,4 +59,20 @@ class TelescopeProvider with ChangeNotifier {
       notifyListeners();
     });
   }
+
+  Telescope findTelescopeById(String id) {
+    return telescopeList.firstWhere((element) => element.id == id);
+  }
+
+  Future<void> updateTelescopeField(
+      String id, String field, dynamic value) async {
+    return DbHelper.updateTelescopeField(id, <String, dynamic>{field: value});
+  }
+
+  Future<void> deleteImage(String id, ImageModel image) async {
+    final photoRef = FirebaseStorage.instance
+        .ref()
+        .child('${image.directoryName}${image.imageName}');
+    return photoRef.delete();
+  }
 }
